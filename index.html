@@ -7,9 +7,12 @@
   <body>
     <header></header>
     <div id="navbar"></div>
+    <div><input id="showCities" type="button" value="Show Listings"></div>
     <div id="map"></div>
     <script>
       var map;
+      //Create array for all city markers
+      var markers = [];
       function initMap() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
@@ -69,6 +72,30 @@
           {title: 'Milwaukee, Wisconsin', location: {lat: 43.0389, lng: -87.9065}},
           {title: 'Cheyenne, Wyoming', location: {lat: 41.1400, lng: -104.8202}}
         ];
+
+        // var largeInfowindow = new google.maps.Infowindow();
+
+        //Create an array of markers using location array
+        for (var i = 0; i < locations.length; i++) {
+          var mapPosition = locations[i].location;
+          var title = locations[i].title;
+          //Create each marker for marker array
+          var marker = new google.maps.Marker({
+            position: mapPosition,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            id: i
+          });
+
+          markers.push(marker);
+        }
+        document.getElementById('showCities').addEventListener('click', showCities);
+      };
+
+      function showCities() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
       }
     </script>
     <script async defer
